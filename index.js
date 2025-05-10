@@ -1,4 +1,4 @@
-require('dotenv').config();
+// require('dotenv').config();
 console.log("API KEY:", process.env.RESEND_API_KEY);
 const express = require("express");
 const { Resend } = require("resend");
