@@ -41,14 +41,14 @@ app.get('/api/swaps/:swapId/authorize', async (req, res) => {
   console.log("Richiesta autorizzazione per swapId:", swapId);
   const { error } = await supabase
     .from('shift_swaps')
-    .update({ status: 'authorized' })
+    .update({ status: 'accepted' })
     .eq('id', swapId);
   if (error) {
     console.error("Errore autorizzazione:", error);
     res.status(500).send('Errore durante l\'autorizzazione');
     return;
   }
-  res.send('Scambio autorizzato!');
+  res.send('Scambio accettato!');
 });
 
 app.get('/api/swaps/:swapId/reject', async (req, res) => {
