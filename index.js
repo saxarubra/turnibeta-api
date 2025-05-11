@@ -20,8 +20,8 @@ app.post("/send-swap-email", async (req, res) => {
       res.status(400).json({ error: "Missing required fields" });
       return;
     }
-    // const { data, error } = await resend.emails.send({ from: fromAddress, to, subject, html });
-    // if (error) throw error;
+     const { data, error } = await resend.emails.send({ from: fromAddress, to, subject, html });
+    if (error) throw error;
     res.status(200).json({ message: "Email inviata (mock)!", to, subject });
   } catch (error) {
     res.status(500).json({ error: error.message });
