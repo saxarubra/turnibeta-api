@@ -34,6 +34,20 @@ app.post("/send-swap-email", async (req, res) => {
   }
 });
 
+app.get('/api/swaps/:swapId/authorize', async (req, res) => {
+  const { swapId } = req.params;
+  // Qui aggiorna lo stato su Supabase a 'autorizzato'
+  // ...
+  res.send('Scambio autorizzato!');
+});
+
+app.get('/api/swaps/:swapId/reject', async (req, res) => {
+  const { swapId } = req.params;
+  // Qui aggiorna lo stato su Supabase a 'rejected' e libera le caselle
+  // ...
+  res.send('Scambio rifiutato!');
+});
+
 const port = process.env.PORT || 3000;
 app.listen(port, () => {
   console.log("Server listening on port", port);
