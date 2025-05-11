@@ -3,6 +3,8 @@ console.log("API KEY:", process.env.RESEND_API_KEY);
 const express = require("express");
 const { Resend } = require("resend");
 const cors = require("cors");
+const { createClient } = require('@supabase/supabase-js');
+const supabase = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_SERVICE_ROLE_KEY);
 const app = express();
 app.use(cors());
 app.use(express.json());
@@ -36,15 +38,31 @@ app.post("/send-swap-email", async (req, res) => {
 
 app.get('/api/swaps/:swapId/authorize', async (req, res) => {
   const { swapId } = req.params;
-  // Qui aggiorna lo stato su Supabase a 'autorizzato'
-  // ...
+  console.log("Richiesta autorizzazione per swapId:", swapId);
+  const { error } = await supabase
+    .from('shift_swaps')
+    .update({ status: 'authorized' })
+    .eq('id', swapId);
+  if (error) {
+    console.error("Errore autorizzazione:", error);
+    res.status(500).send('Errore durante l\'autorizzazione');
+    return;
+  }
   res.send('Scambio autorizzato!');
 });
 
 app.get('/api/swaps/:swapId/reject', async (req, res) => {
   const { swapId } = req.params;
-  // Qui aggiorna lo stato su Supabase a 'rejected' e libera le caselle
-  // ...
+  console.log("Richiesta rifiuto per swapId:", swapId);
+  const { error } = await supabase
+    .from('shift_swaps')
+    .update({ status: 'rejected' })
+    .eq('id', swapId);
+  if (error) {
+    console.error("Errore rifiuto:", error);
+    res.status(500).send('Errore durante il rifiuto');
+    return;
+  }
   res.send('Scambio rifiutato!');
 });
 
