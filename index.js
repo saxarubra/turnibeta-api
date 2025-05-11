@@ -2,7 +2,9 @@
 console.log("API KEY:", process.env.RESEND_API_KEY);
 const express = require("express");
 const { Resend } = require("resend");
+const cors = require("cors");
 const app = express();
+app.use(cors());
 app.use(express.json());
 
 app.get("/", (req, res) => {
